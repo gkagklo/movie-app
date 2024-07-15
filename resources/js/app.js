@@ -1,5 +1,7 @@
 import Alpine from 'alpinejs'
- 
-window.Alpine = Alpine
- 
-Alpine.start()
+import focus from '@alpinejs/focus'
+
+//window.Alpine = Alpine   
+//Alpine.start()
+
+Alpine.plugin(focus)
