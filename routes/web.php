@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Livewire\GenreIndex;
 use App\Livewire\CastIndex;
 use App\Livewire\EpisodeIndex;
-use App\Livewire\GenreIndex;
 use App\Livewire\MovieIndex;
 use App\Livewire\SeasonIndex;
 use App\Livewire\SerieIndex;

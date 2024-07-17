@@ -33,14 +33,53 @@
               </td>
               <td class="px-4 py-3 text-ms font-semibold border">{{ $cast->slug }}</td>
               <td class="px-4 py-3 text-xs border">
-                {{ $cast->poster_path }}
+                <img class="w-12 h-12 rounded" src="{{ asset('https://image.tmdb.org/t/p/w500/'. $cast->poster_path) }}">
               </td>
-              <td class="px-4 py-3 text-sm border">Edit/Delete</td>
+              <td class="px-4 py-3 text-sm border">
+                <x-m-button wire:click="showEditModal({{$cast->id}})" class="bg-green-500 hover:bg-green-700 text-white">Edit</x-m-button>
+                <x-m-button wire:click="deleteCast({{$cast->id}})" class="bg-red-500 hover:bg-red-700 text-white">Delete</x-m-button>
+              </td>
             </tr>
             @endforeach
           </tbody>
-          {{ $casts->links() }}
         </table>
+        <div class="m-2 p-2">
+          {{ $casts->links() }}
+        </div>
       </div>
     </div>
+
+    <x-dialog-modal wire:model="showCastModal">
+      <x-slot name="title">Update Cast</x-slot>
+      <x-slot name="content">  
+        <div class="border-b border-gray-900/10 pb-12">
+          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8">
+            <div class="sm:col-span-3">
+              <label for="" class="block text-sm font-medium leading-6 text-gray-900">Cast name</label>
+              <div class="mt-2">
+                <input wire:model="castName" type="text" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                @error('castName')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+              </div>
+            </div>
+            <div class="sm:col-span-3">
+              <label for="" class="block text-sm font-medium leading-6 text-gray-900">Cast Poster</label>
+              <div class="mt-2">
+                <input wire:model="castPosterPath" type="text" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                @error('castPosterPath')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+              </div>
+            </div>
+          </div>
+        </div>   
+      </x-slot>
+
+      <x-slot name="footer">
+        <x-button wire:click="closeCastModal">Cancel</x-button>
+        <x-m-button wire:click="updateCast">Update</x-m-button>
+      </x-slot>
+    </x-dialog-modal>
+
   </section>
