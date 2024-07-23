@@ -27,7 +27,7 @@
               </svg>
           </div>
 
-          <input wire:model="search" type="text" placeholder="Search by title"
+          <input wire:model.live="search" type="text" placeholder="Search by title"
               class="px-8 py-3 w-full md:w-2/6 rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm" />
       </div>
 
@@ -41,13 +41,13 @@
 
       <div>
           <div class="flex justify-between space-x-4 mt-4">
-              <select wire:model="sort"
+              <select wire:model.live="sort"
                   class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
                   <option value="asc">Asc</option>
                   <option value="desc">Desc</option>
               </select>
 
-              <select wire:model="perPage"
+              <select wire:model.live="perPage"
                   class="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm">
                   <option value="5">5 Per Page</option>
                   <option value="10">10 Per Page</option>

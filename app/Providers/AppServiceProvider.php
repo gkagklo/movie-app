@@ -20,8 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Builder::macro('search', function (string $attribute, string $search) {
-            return $search ? $this->where($attribute, 'LIKE', "%{$search}%") : $this;
+        Builder::macro('search', function (string $attribute, string $string) {
+            return $string ? $this->where($attribute, 'LIKE', '%'.$string.'%') : $this;
         });
     }
 }

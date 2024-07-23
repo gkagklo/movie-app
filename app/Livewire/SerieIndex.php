@@ -18,6 +18,9 @@ class SerieIndex extends Component
     public $createdYear;
     public $showSerieModal = false;
     public $serieId;
+    public $search = '';
+    public $sort = 'asc';
+    public $perPage = 5;
 
     protected $rules = [
         'serieName' => 'required',
@@ -86,10 +89,15 @@ class SerieIndex extends Component
         $this->dispatch('banner-message', style: 'danger', message: 'Serie deleted successfully');
     }
 
+    public function resetFilters()
+    {
+        $this->reset(['search', 'sort', 'perPage']);
+    }
+
     public function render()
     {
         return view('livewire.serie-index', [
-            'series' => Serie::paginate(5)
+            'series' => Serie::search('name', $this->search)->orderBy('name', $this->sort)->paginate($this->perPage)
         ]);
     }
 }
