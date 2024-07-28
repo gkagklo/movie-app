@@ -2,9 +2,9 @@
   <div class="w-full mb-4 p-2 flex justify-end">
     <form class="flex shadow bg-white rounded-md m-2 p-2">
       <div class="p-1 flex items-center">
-        <label for="tmdb_id_g" class="block text-sm font-medium text-gray-700 md:mr-4">Season Tmdb Id</label>
+        <label for="tmdb_id_g" class="block text-sm font-medium text-gray-700 md:mr-4">Season Number</label>
         <div class="relative rounded-md shadow-sm">
-          <input wire:model="seasonTMDBId" id="tmdb_id_g" name="tmdb_id_g" class="px-3 py-2 border border-gray-300 rounded" placeholder="" />
+          <input wire:model="seasonNumber" id="tmdb_id_g" name="tmdb_id_g" class="px-3 py-2 border border-gray-300 rounded" placeholder="" />
         </div>
       </div>
       <div class="p-1">
@@ -80,6 +80,7 @@
               <img class="w-12 h-12 rounded" src="{{ asset('https://image.tmdb.org/t/p/w500/'. $season->poster_path) }}">
             </td>
             <td class="px-4 py-3 text-sm border">
+              <a href="{{ route('admin.episodes.index', [$serie->id, $season->id])}}" class="px-4 py-2.5 bg-blue-300 text-gray-900 hover:bg-blue-500 rounded shadow">Episodes</a>
               <x-m-button wire:click="showEditModal({{$season->id}})" class="bg-green-500 hover:bg-green-700 text-white">Edit</x-m-button>
               <x-m-button wire:click="deleteSeason({{$season->id}})" class="bg-red-500 hover:bg-red-700 text-white">Delete</x-m-button>
             </td>

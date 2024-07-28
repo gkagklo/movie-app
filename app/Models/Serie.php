@@ -17,4 +17,5 @@ class Serie extends Model
         'poster_path',
         'visits'
     ];
+    
 }

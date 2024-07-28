@@ -13,7 +13,6 @@ class SeasonIndex extends Component
 {
     use WithPagination;
 
-    public $seasonTMDBId;
     public $seasonName;
     public $seasonPosterPath;
     public $seasonNumber;
@@ -33,23 +32,31 @@ class SeasonIndex extends Component
 
     public function generateSeason()
     {
-        $newSeason = Http::get('https://api.themoviedb.org/3/tv/'. $this->serie->id .'/season/'. $this->seasonTMDBId .'?language=en-US&api_key=3782d0cbf52bde02c3b8a41ea22481f7')->json();
-        $season = Season::where('tmdb_id', $newSeason['id'])->first();
-        if(!$season){
-            Season::create([
-                'tmdb_id' => $newSeason['id'],
-                'serie_id' => $this->serie->id,
-                'name' => $newSeason['name'],    
-                'slug' => Str::slug($newSeason['name']),
-                'poster_path' => $newSeason['poster_path'],
-                'season_number' => $newSeason['season_number']
-            ]);
+        $newSeason = Http::get('https://api.themoviedb.org/3/tv/'. $this->serie->tmdb_id .'/season/'. $this->seasonNumber .'?language=en-US&api_key=3782d0cbf52bde02c3b8a41ea22481f7');
+        if($newSeason->ok()){
+            $season = Season::where('tmdb_id', $newSeason['id'])->first();
+            if(!$season){
+                Season::create([
+                    'tmdb_id' => $newSeason['id'],
+                    'serie_id' => $this->serie->id,
+                    'name' => $newSeason['name'],    
+                    'slug' => Str::slug($newSeason['name']),
+                    'poster_path' => $newSeason['poster_path'] ? $newSeason['poster_path'] : $this->serie->poster_path,
+                    'season_number' => $newSeason['season_number']
+                ]);
+                $this->reset('seasonNumber');
+                $this->dispatch('banner-message', style: 'success', message: 'Season created successfully');
+            }
+            else
+            {
+                $this->dispatch('banner-message', style: 'danger', message: 'Season already exist');
+            }
         }
         else
         {
-            $this->dispatch('banner-message', style: 'danger', message: 'Season already exist');
+            $this->dispatch('banner-message', style: 'danger', message: 'Api not exists');
+            $this->reset('seasonNumber');
         }
-        
     }
 
     public function showEditModal($id)
@@ -74,15 +81,15 @@ class SeasonIndex extends Component
         $season->update([
             'name' => $this->seasonName,
             'poster_path' => $this->seasonPosterPath,
-            'season_number' => $this->season_number
+            'season_number' => $this->seasonNumber
         ]);
         $this->dispatch('banner-message', style: 'success', message: 'Season updated successfully');
-        $this->reset();
+        $this->reset('seasonNumber', 'seasonName', 'seasonPosterPath', 'seasonId', 'showSeasonModal');
     }
 
     public function closeSeasonModal()
     {
-        $this->reset();
+        $this->reset('seasonNumber', 'seasonName', 'seasonPosterPath', 'seasonId', 'showSeasonModal');
         $this->resetValidation();
     }
 
