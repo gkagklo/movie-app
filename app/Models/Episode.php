@@ -19,4 +19,10 @@ class Episode extends Model
         'visits',
         'overview'
     ];
+
+    public function season()
+    {
+        return $this->belongsTo(Season::class);
+    }
+
 }
