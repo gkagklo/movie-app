@@ -52,7 +52,7 @@
                 @foreach($episodes as $episode)
                     <x-movie-card>
                         <x-slot name="image">
-                            <a href="">
+                            <a href="{{ route('episodes.show', $episode->slug)}}">
                                 <div class="aspect-w-2 aspect-h-3">
                                     <img class="object-cover" src="https://www.themoviedb.org/t/p/w220_and_h330_face/{{$episode->season->poster_path}}">
                                 </div>
@@ -78,7 +78,7 @@
                                 </div>
                             </a>
                         </x-slot>
-                        <a href="/">
+                        <a href="{{ route('episodes.show', $episode->slug)}}">
                             <div class="dark:text-white font-bold group-hover:text-blue-400">
                                 {{ $episode->name }}
                             </div>
@@ -115,9 +115,7 @@
                                         Play</div>
                                 </div>
                                 <div class="absolute z-10 bottom-2 left-2 text-indigo-300 text-sm font-bold">
-                                    @foreach($movie->genres as $genre)
-                                        {{ $genre->title }}
-                                    @endforeach
+                                    {{ $serie->seasons_count }} Season/s
                                 </div>
                             </a>
                         </x-slot>

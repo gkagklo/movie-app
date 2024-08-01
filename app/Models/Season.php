@@ -17,4 +17,14 @@ class Season extends Model
         'season_number',
         'poster_path'
     ];
+
+    public function serie()
+    {
+        return $this->belongsTo(Serie::class);
+    }
+
+    public function episodes()
+    {
+        return $this->hasMany(Episode::class);
+    }
 }

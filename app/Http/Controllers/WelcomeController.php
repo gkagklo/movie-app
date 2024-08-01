@@ -13,7 +13,7 @@ class WelcomeController extends Controller
     {
         $movies = Movie::orderBy('created_at','desc')->take(12)->get();
         $episodes = Episode::orderBy('created_at','desc')->take(12)->get();
-        $series = Serie::orderBy('created_at','desc')->take(12)->get();
+        $series = Serie::withCount('seasons')->orderBy('created_at','desc')->take(12)->get();
         return view('welcome', compact('movies', 'episodes', 'series'));
     }
 }

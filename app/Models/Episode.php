@@ -25,4 +25,9 @@ class Episode extends Model
         return $this->belongsTo(Season::class);
     }
 
+    public function trailers()
+    {
+        return $this->morphMany(TrailerUrl::class, 'trailerable');
+    }
+
 }

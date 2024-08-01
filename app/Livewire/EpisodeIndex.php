@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Episode;
 use App\Models\Season;
 use App\Models\Serie;
+use App\Models\TrailerUrl;
 use Livewire\Component;
 use Illuminate\Support\Str;
 
@@ -23,6 +24,12 @@ class EpisodeIndex extends Component
     public $search = '';
     public $sort = 'asc';
     public $perPage = 5;
+
+    public $showTrailer = false;
+    public $episode;
+
+    public $trailerName;
+    public $embedHtml;
 
     protected $rules = [
         'episodeName' => 'required',
@@ -75,7 +82,6 @@ class EpisodeIndex extends Component
         $this->overview = $episode->overview;
         $this->episodeNumber = $episode->episode_number;
         $this->isPublic = $episode->is_public;
-        //dd($this->isPublic);
     }
 
     public function updateEpisode()
@@ -94,7 +100,7 @@ class EpisodeIndex extends Component
 
     public function closeEpisodeModal()
     {
-        $this->reset('episodeNumber', 'episodeName', 'episodeId', 'showEpisodeModal', 'overview');
+        $this->reset('episodeNumber', 'episodeName', 'episodeId', 'showEpisodeModal', 'overview', 'showTrailer');
         $this->resetValidation();
     }
 
@@ -109,6 +115,31 @@ class EpisodeIndex extends Component
     public function resetFilters()
     {
         $this->reset(['search', 'sort', 'perPage']);
+    }
+
+    public function showTrailerModal($episodeId)
+    {
+        $this->episode = Episode::findOrFail($episodeId);
+        $this->showTrailer = true;
+
+    }
+
+    public function addTrailer()
+    {
+        $this->episode->trailers()->create([
+            'name' => $this->trailerName,
+            'embed_html' => $this->embedHtml
+        ]);
+        $this->dispatch('banner-message', style: 'success', message: 'Trailer added');
+        $this->reset('episode', 'showTrailer', 'trailerName', 'embedHtml');
+    }
+
+    public function deleteTrailer($trailerId)
+    {
+        $trailer = TrailerUrl::findOrFail($trailerId);
+        $trailer->delete();
+        $this->dispatch('banner-message', style: 'danger', message: 'Trailer deleted');
+        $this->reset('episode', 'showTrailer', 'trailerName', 'embedHtml');
     }
 
     public function render()

@@ -17,5 +17,10 @@ class Serie extends Model
         'poster_path',
         'visits'
     ];
+
+    public function seasons()
+    {
+        return $this->hasMany(Season::class);
+    }
     
 }
