@@ -35,7 +35,7 @@ Route::get('/series/{serie:slug}/seasons/{season:slug}', [SerieController::class
 Route::get('/episodes/{episode:slug}', [SerieController::class, 'showEpisode'])->name('episodes.show');
 Route::get('/casts', [CastController::class, 'index'])->name('casts.index');
 Route::get('/casts/{cast:slug}', [CastController::class, 'show'])->name('casts.show');
-Route::get('/genre/{slug}', [GenreController::class, 'show'])->name('genre.show');
+Route::get('/genre/{genre:slug}', [GenreController::class, 'show'])->name('genre.show');
 
 Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function(){
     Route::get('/', [AdminController::class, 'index'])->name('index');

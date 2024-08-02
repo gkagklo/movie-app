@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Episode extends Model
+class Episode extends Model implements Searchable
 {
     use HasFactory;
 
@@ -19,6 +21,17 @@ class Episode extends Model
         'visits',
         'overview'
     ];
+
+    public function getSearchResult(): SearchResult
+     {
+        $url = route('episodes.show', $this->slug);
+     
+         return new \Spatie\Searchable\SearchResult(
+            $this,
+            $this->name,
+            $url
+         );
+     }
 
     public function season()
     {
