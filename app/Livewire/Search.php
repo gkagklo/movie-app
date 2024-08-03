@@ -25,18 +25,15 @@ class Search extends Component
         $this->reset();
     }
 
-    public function updatedSearch()
-    { 
-        $this->searchResults = (new SpatieSearch())
-        ->registerModel(Movie::class, 'overview')
-        // ->registerModel(Serie::class, 'name')
-        // ->registerModel(Season::class, 'name')
-        // ->registerModel(Cast::class, 'name')
-        // ->registerModel(Episode::class, 'name')    
-        ->search($this->search);
-    }
     public function render()
     {  
-        return view('livewire.search');
+        $searchResults = (new SpatieSearch())
+        ->registerModel(Movie::class, 'title')
+        ->registerModel(Serie::class, 'name')
+        ->registerModel(Season::class, 'name')
+        ->registerModel(Cast::class, 'name')
+        ->registerModel(Episode::class, 'name') 
+        ->search($this->search);
+        return view('livewire.search', ['results' => $searchResults]);
     }
 }

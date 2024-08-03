@@ -25,8 +25,7 @@ class Cast extends Model implements Searchable
          return new \Spatie\Searchable\SearchResult(
             $this,
             $this->name,
-            $url,
-            $type
+            $url
          );
      }
 

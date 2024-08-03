@@ -31,20 +31,20 @@
                 </div>
                 @if (!empty($search))
                     <div class="" wire:loading.remove>
-                        @if (!empty($searchResults))
-                            @foreach ($searchResults->groupByType() as $type => $modelSearchResults)
-                                <h1>{{ $type }}</h1>
-                                @foreach ($modelSearchResults as $searchResult)
-                                    <a href="{{ $searchResult->url }}">
-                                        <div
-                                            class="p-2 m-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-500 dark:hover:bg-gray-700 cursor-pointer rounded-md">
-                                            {{ $searchResult->title }}</div>
-                                    </a>
-                                @endforeach
+                        @forelse($results->groupByType() as $type => $modelSearchResults)
+                        <div class="font-bold mt-2 mb-2">{{ ucfirst($type) }}</div>
+                        <ul class="list-inside">
+                            @foreach($modelSearchResults as $searchResult)
+                            <a href="{{ $searchResult->url }}">
+                                <div
+                                    class="p-2 m-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-500 dark:hover:bg-gray-700 cursor-pointer rounded-md">
+                                    {{ $searchResult->title }}</div>
+                            </a>
                             @endforeach
-                        @else
-                            <div>No Results</div>
-                        @endif
+                        </ul>
+                    @empty
+                        No results.
+                    @endforelse
                     </div>
                 @endif
             </div>
